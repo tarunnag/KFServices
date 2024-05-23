@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+
+	<cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="hostName=localhost, port=40001, socketTimeoutMillis=2000" />
+
+	<cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=manual, rmiUrls=//localhost:40002/authenticationCache" />
+
+
+	<cache name="authenticationCache" maxEntriesLocalHeap="10000"
+		eternal="false" timeToIdleSeconds="300000" timeToLiveSeconds="0"
+		memoryStoreEvictionPolicy="LRU" transactionalMode="off">
+
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true, replicateUpdatesViaCopy=false, replicateRemovals=true " />
+	</cache>
+
+</ehcache>

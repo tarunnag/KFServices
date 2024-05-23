@@ -1,0 +1,16 @@
+{
+	"DEV": {
+		"URI_Webapps": "http://haysdattc01.haygroup.azure/manager/text/deploy?path=/v1&update=true",
+		"URI_TalentArchietct": "http://devproductsapi.kfy.com/manager/text/deploy?path=/v1&update=true",
+		"UserName": "",
+		"Password": ""
+	},
+	"TEST": {
+		"URI_Webapps": "http://haystattc02.haygroup.azure/manager/text/deploy?path=/v1&update=true",
+		"URI_TalentArchietct": "http://testproductsapi.kornferry.com/manager/text/deploy?path=/v1&update=true",
+		"UserName": "",
+		"Password": ""
+	},
+	
+	"war" : "target/v1.war"
+}

@@ -1,0 +1,13 @@
+!SESSION 2018-05-10 11:45:17.054 -----------------------------------------------
+eclipse.buildId=3.8.2.201610040743-RELEASE-e46
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.springsource.sts.ide -product org.springsource.sts.ide -keyring /Users/manchigs/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.springsource.sts.ide -data /Volumes/BOOTCAMP/sanjay/projects/STS_Workspace/HGActivateAPI -product org.springsource.sts.ide -keyring /Users/manchigs/.eclipse_keyring
+
+!ENTRY org.eclipse.jface.text 2 0 2018-05-10 11:45:29.090
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2018-05-10 11:45:29.104
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'

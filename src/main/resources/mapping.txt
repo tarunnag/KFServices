@@ -1,0 +1,5 @@
+/v1/hrms/paydatacollection/postprocessing/queries?type=RUN,/rest/KFPayDataCollectionPostProcessing/model/queries?version={0}&type={1}&queryId={2},CreateMarketQuerySQL(SP)
+/v1/hrms/paydatacollection/postprocessing/maintenance/reporttemplates?countryCode=BE&reportType=CASHFACT_VALUES,/rest/KFPayDataCollectionPostProcessing/model/maintenance/reporttemplates?reportType={0}&countryCode={1},sql
+/v1/hrms/reports//reportbycategory?categoryId=26,/rest/KFReportingFramework/model/reportcategory
+/v1/hrms/reports/downloadReports?reportId=8110,/rest/KFReportingFramework/model/reportexport?reportId={0}&deferredReport={1}&queueId={2}
+/v1/hrms/paydatacollection/postprocessing/actions/queue=/rest/KFPayDataCollectionPostProcessing/model/actions/queue?queueType={0}

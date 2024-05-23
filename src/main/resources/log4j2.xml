@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p: %c - %m%n" />
+		</Console>
+	<RollingFile name="rollingFile"
+			fileName="${sys:catalina.base}/logs/KfServices.log"
+			filePattern="${sys:catalina.base}/logs/KfServices.%d{dd-MMM}.%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+		</RollingFile>
+
+	</Appenders>
+
+	<Loggers>
+		<Logger name="org.springframework.core" level="WARN"></Logger>
+		<Logger name="org.springframework.beans" level="WARN"></Logger>
+		<Logger name="org.springframework.context" level="WARN"></Logger>
+		<Logger name="org.springframework.web" level="WARN"></Logger>
+		<Logger name="org.mongodb.driver.cluster" level="OFF"></Logger>
+
+		<!-- Root Logger -->
+		<!-- <root> <priority value="DEBUG" /> <appender-ref ref="console" /> <appender-ref 
+			ref="rollingFile" /> </root> -->
+
+		<Root level="DEBUG">
+			<AppenderRef ref="console" />
+		</Root>
+		<Logger name="com.haygroup.leap" level="DEBUG">
+			<AppenderRef ref="rollingFile" />
+		</Logger>
+	</Loggers>
+</Configuration>

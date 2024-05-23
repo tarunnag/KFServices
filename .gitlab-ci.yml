@@ -1,0 +1,76 @@
+# Define the stages various stages the Kf services need to progress in the CI/CD life cycle
+stages:
+  - build
+  - deploy_dev
+  - deploy_prod #simulation prod deployment
+
+# Deploy to tomcat
+build:
+    stage: build
+    tags:
+        - kfservices-build
+    only:
+        - tags
+        - /-rc\./
+        - /-rcs\./
+    except:
+        - master
+    script:
+        - echo 'in build project stage'
+        - mvn clean install
+    retry:
+      max: 2
+      when:
+        - always
+    artifacts:
+      paths:
+        - ./target
+      expire_in: 8 week
+
+deploy_dev:
+    stage: deploy_dev
+    tags:
+        - kfservices-build
+    only:
+        - tags
+        - /-rc\./
+    except:
+        - master
+        - /-rcs\./
+    script:
+        - echo "Start ..."
+        - echo "getting variables from spring_config.json file"
+        - $CD_BUILDS_DIR # location where we store spring_config.json file
+        - export SERVER_USER=$(cat spring_config.json | jq '.server_user' | tr -d '"')
+        - export SERVER_PASSWORD=$(cat spring_config.json | jq '.server_password' | tr -d '"')
+        - $CD_DEPLOY_SCRIPT_DIR
+        - bash deploy.sh
+        - echo "Deployment finished ..."
+    retry:
+      max: 2
+      when:
+        - always
+
+deploy_prod:
+    stage: deploy_prod
+    tags:
+        - kfservices-build
+    only:
+        - tags
+        - /-rcs\./
+    except:
+        - master
+    script:
+        - echo "Start ..."
+        - echo "getting variables from spring_config.json file"
+        - $CD_BUILDS_DIR # location where we store spring_config.json file
+        - export SERVER_USER=$(cat spring_config.json | jq '.server_user' | tr -d '"')
+        - export SERVER_PASSWORD=$(cat spring_config.json | jq '.server_password' | tr -d '"')
+        - $CD_DEPLOY_SCRIPT_DIR
+        - bash deploy.sh
+        - echo "Deployment finished ..."
+    retry:
+      max: 2
+      when:
+        - always
+    when: manual

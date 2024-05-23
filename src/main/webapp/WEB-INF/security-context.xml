@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- <security:global-method-security
+		secured-annotations="enabled" />-->
+		
+	<security:global-method-security pre-post-annotations="enabled" /> 
+
+	<!-- cleanup done on 08/18/20 to remove unused APIs by KOLISHES -->
+	<!--  <security:http pattern="/actions/login" security="none" />-->
+	<!-- <security:http pattern="/actions/oldLogin" security="none" />-->
+	<security:http pattern="/actions/forgotpassword" security="none" />
+	<security:http pattern="/actions/genderanalysis/*" security="none" />
+	<security:http pattern="/actions/resetpassword" security="none" />
+	<!--Removing all stale APIs from legacy apps
+	<security:http pattern="/surveys/**" security="none" />
+	<security:http pattern="/surveys/response" security="none" />
+	<security:http pattern="/error" security="none" />
+	<security:http pattern="/error/**" security="none" />
+	<security:http pattern="/configs/application" security="none" />
+	<security:http pattern="/jobmapping/jobmatrixreport" security="none" />
+	<security:http pattern="/jobmapping/actions/uploadcompensationdata" security="none" />
+	<security:http pattern="/actions/sendemail" security="none" />
+	<security:http pattern="/actions/generatepdf" security="none" />-->
+	<security:http pattern="/hrms/assessments/participantmoredetails" security="none" />
+	<security:http pattern="/actions/ssologin" security="none" />
+	<security:http pattern="/sso/samlssocheck" security="none" />
+	<security:http pattern="/sso/acs" security="none" />
+	<security:http pattern="/hrms/ucp/getsurveyparticipantsbycollabid" security="none" />
+	<security:http pattern="/hrms/ucp/getsurveyoutputparticipantsbycollabid" security="none" />
+	<security:http pattern="/hrms/ucp/updateidashboardjobanalysisdata" security="none" />
+	<security:http pattern="/hrms/ucp/updateidashboardcompanyculturedata" security="none" />
+	<security:http pattern="/hrms/ucp/updateidashboardcompdata" security="none" />
+	<security:http pattern="/hrms/ucp/submitcompanyculture" security="none" />
+	<security:http pattern="/hrms/ucp/saverolerequirementslider" security="none" />
+	<security:http pattern="/hrms/ucp/savecompetency" security="none" />
+	<security:http pattern="/hrms/ucp/savecompanyculture" security="none" />
+	<security:http pattern="/hrms/ucp/completerolerequirementslider" security="none" />
+	<security:http pattern="/hrms/ucp/completecompetencysurvey" security="none" />
+	<security:http pattern="/hrms/ucp/getsuccessprofilebyid" security="none" />
+	<security:http pattern="/hrms/ucp/getsprolereqslidervalbyid" security="none" />
+	<security:http pattern="/hrms/ucp/getcompanyculture" security="none" />
+	<security:http pattern="/hrms/ucp/saveconsent" security="none" />
+	<security:http pattern="/hrms/ucp/getconsentstatus" security="none" />
+	<security:http pattern="/hrms/ucp/getuserpermissionexists" security="none" />
+	<security:http pattern="/hrms/ucp/token/**" security="none" />
+	<security:http pattern="/hrms/ucp/userstage" security="none" />
+	<security:http pattern="/hrms/ucp/jobanalysis" security="none" />
+	<security:http pattern="/hrms/ucp/culturesortdetails" security="none" />
+	<security:http pattern="/hrms/ucp/competencydetails" security="none" />
+	<security:http pattern="/hrms/ucp/publishsp" security="none" />
+	<security:http pattern="/hris/ats/v1/**" security="none" />
+	
+	<security:http auto-config="true" pattern="/actions/login" create-session="stateless">
+		<security:csrf disabled="true"/>
+		<security:headers>
+        	<security:frame-options policy="SAMEORIGIN" />
+    	</security:headers>
+    	<security:headers>
+    		<security:hsts include-subdomains="true" max-age-seconds="31536000"/>
+    	</security:headers>
+	</security:http>
+	
+	<bean id="picPreAuthenticationFilter"
+		class="com.haygroup.leap.security2.PicPreAuthenticateRequestFilterChain">
+		<constructor-arg index="0">
+			<ref bean="cacheFactory" />
+		</constructor-arg> 
+	</bean>
+	<!--  
+	<security:http auto-config="false" entry-point-ref="ep403" pattern="/users/*/picture"  create-session="stateless">
+		<security:intercept-url pattern="/users/*/picture" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+	-->
+	<security:http auto-config="false" entry-point-ref="ep403" pattern="/users/*/rosters/*/picture"  create-session="stateless">
+		<security:intercept-url pattern="/users/*/picture" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+	
+	<security:http auto-config="false" entry-point-ref="ep403" pattern="/companies/*/picture"  create-session="stateless">
+		<security:intercept-url pattern="/companies/*/picture" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+
+	<security:http auto-config="false" entry-point-ref="ep403" pattern="/objects"  create-session="stateless">
+		<security:intercept-url pattern="/objects" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+	
+	<security:http auto-config="false" entry-point-ref="ep403" pattern="/hrms/assessments/actions/participantsuploadtemplates"  create-session="stateless">
+		<security:intercept-url pattern="/objects" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+	
+		<security:http auto-config="false" entry-point-ref="ep403" pattern="/hrms/assessments/talentmanagement/actions/participantsuploadtemplates"  create-session="stateless">
+		<security:intercept-url pattern="/objects" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+
+
+	<security:http auto-config="false" entry-point-ref="ep403" pattern="/hrms/assessments/actions/uploadparticipantsvalidationerrors"  create-session="stateless">
+		<security:intercept-url pattern="/hrms/assessments/actions/uploadparticipantsvalidationerrors" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+
+	
+	<security:http auto-config="false" entry-point-ref="ep403" pattern="/hrms/assessments/talentmanagement/actions/uploadparticipantsvalidationerrors"  create-session="stateless">
+		<security:intercept-url pattern="/hrms/assessments/talentmanagement/actions/uploadparticipantsvalidationerrors" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:content-type-options disabled="true"/>
+		</security:headers>
+		<security:custom-filter ref="picPreAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+	
+	
+	
+	<security:http auto-config="false" entry-point-ref="ep403" create-session="stateless">
+		<security:intercept-url pattern="/hrms/insights/workforcealignment" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')" />
+		<security:intercept-url pattern="/hrms/successprofiles/skills" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/users/**" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/actions/logout" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/actions/generatetijwttoken" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/hrms/insights/rolematrix" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/hrms/paydatacollection/companies/organizationcodes" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/companies/proxycompanies" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/actions/proxylogin" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/actions/token/metadata" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/actions/istokenvalid" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/hrms/successprofiles/**" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/hrms/architect/actions/getrelatedjobs" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/hrms/successprofiles/compareskills" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/hrms/thportal/admin/jobs/validateJobCodes" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/hrms/thportal/admin/jobs/clientJobsInfo" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/hrms/thportal/admin/talenthub/statistics/serverstatistics" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/hrms/thportal/admin/talenthub/statistics/clientstatistics" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/hrms/thportal/**" access="hasRole('ROLE_USER') and hasRole('ROLE_INTERNAL_USER')"/>
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/datasources" access="hasAnyRole('ROLE_USER','ROLE_INTERNAL_USER')"/>
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/tier3/uploads" access="hasAnyRole('ROLE_USER','ROLE_INTERNAL_USER')"/>
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/actions/dcttemplate" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/actions/previousyearsubmission/deferredreport" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/actions/previousyearsubmission/exportreport" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/actions/reset" access="hasRole('ROLE_USER')" />								
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/template" access="hasAnyRole('ROLE_USER','ROLE_INTERNAL_USER')"/>
+		<security:intercept-url pattern="/hrms/paydatacollection/postprocessing/**" access="hasRole('ROLE_USER') and hasRole('ROLE_INTERNAL_USER')"/>
+		<security:intercept-url pattern="/hrms/postprocessing/customgrades/**" access="hasRole('ROLE_USER') and hasRole('ROLE_INTERNAL_USER')"/>
+		<security:intercept-url pattern="/hrms/postprocessing/peergroups/**" access="hasRole('ROLE_USER') and hasRole('ROLE_INTERNAL_USER')"/>
+		<security:intercept-url pattern="/hrms/payhub/businessunits" access="hasAnyRole('ROLE_USER','ROLE_INTELLIGENCE_CLOUD')"/>
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<security:csrf disabled="true"/>
+		<!-- adding x-frame options header for pen tests -->
+		<!-- <security:headers>
+         	<security:frame-options policy="SAMEORIGIN" />
+   		</security:headers> -->
+    	 <security:headers>
+    		<security:referrer-policy policy="same-origin"/>
+    	</security:headers>
+		
+    	<security:headers>
+    		<security:hsts include-subdomains="true" max-age-seconds="31536000"/>
+    	</security:headers>
+		<security:custom-filter ref="preAuthenticationFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>
+	
+	<security:authentication-manager />
+
+	<bean id="preAuthenticationFilter"
+		class="com.haygroup.leap.security2.PreAuthenticateRequestFilterChain">
+		<constructor-arg index="0">
+			<ref bean="cacheFactory" />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="ep403" class="com.haygroup.leap.security2.Http401EntryPoint"/>
+	
+
+	
+
+
+</beans>

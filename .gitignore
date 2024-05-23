@@ -1,0 +1,6 @@
+/target/
+/target/**
+.settings/
+src/main/resources/IS.properties
+.classpath
+bin/
