@@ -42,7 +42,7 @@ jobs:
 
       - name: Upload WAR file to EC2
         run: |
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no target/*.war Administrator@${{ secrets.EC2_INSTANCE_IP }}:/C:/path/to/tomcat/webapps/
+          scp -i $SSH_AUTH_SOCK -o StrictHostKeyChecking=no target/*.war Administrator@${{ secrets.EC2_INSTANCE_IP }}:/C:/path/to/tomcat/webapps/
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           EC2_INSTANCE_IP: ${{ secrets.EC2_INSTANCE_IP }}
